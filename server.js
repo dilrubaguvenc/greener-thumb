@@ -30,6 +30,13 @@ app.get('/getPlants', async (req, res) => {
             item.watering.includes('Upgrade') || 
             item.sunlight.includes('Upgrade')
         )
+
+        if(validData && validData.length > 0 ) {
+            res.render('index', { plants: validData.slice(0,6), message: null })
+        } else {
+            res.render('index', { plants: [], message: 'No results returned, please modify your selection and try again' })
+        }
+
     } catch {
         console.log('error', error)
         res.render('index', { plants: [], message: "Internal Server Error" })
