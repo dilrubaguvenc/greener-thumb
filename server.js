@@ -6,6 +6,14 @@ const PORT = process.env.PORT || 5000
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
+// function to shuffle an array
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i --){
+        const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to 1
+        [array[i], array[j]] = [array[j], array[i]]; // swap elements, destructing the array
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('index', {plants: null, message: null})
 })
@@ -31,8 +39,10 @@ app.get('/getPlants', async (req, res) => {
             item.sunlight.includes('Upgrade')
         )
 
+        shuffleArray(validData)
+
         if(validData && validData.length > 0 ) {
-            res.render('index', { plants: validData.slice(0,6), message: null })
+            res.render('index', { plants: validData.slice(0,3), message: null })
         } else {
             res.render('index', { plants: [], message: 'No results returned, please modify your selection and try again' })
         }
